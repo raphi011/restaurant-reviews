@@ -47,7 +47,7 @@ class Restaurant extends Component {
       <div>
         <Box pad="medium">
           <Image
-            alt="Restaurant Image"
+            alt={`Restaurant ${restaurant.name}`}
             src={`/imgs/${restaurant.id}.jpg`}
             full="horizontal"
             />

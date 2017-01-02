@@ -6,7 +6,7 @@ import { restaurantProp } from '../propTypes';
 
 const RestaurantCard = ({ restaurant }) => (
   <Card
-    style={{ padding: '10px', maxWidth: '365px' }}
+    style={{ padding: '10px', width: '350px' }}
     thumbnail={`/imgs/${restaurant.id}.jpg`}
     label={restaurant.cuisine}
     heading={restaurant.name}

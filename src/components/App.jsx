@@ -107,7 +107,7 @@ class App extends Component {
             cuisines={this.state.cuisines}
             />
           <Heading tag="h3" style={{ marginTop: '20px' }}>Found: </Heading>
-          <Tiles selectable size="medium">{cards}</Tiles>
+          <Tiles fill selectable size="medium">{cards}</Tiles>
         </Section>
         {layer}
       </Container >
