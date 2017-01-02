@@ -33,6 +33,7 @@
   "dependencies": {
     "grommet": "^1.1.0",
     "grommet-addons": "^0.1.0",
+    "idb": "^2.0.0",
     "isomorphic-fetch": "^2.2.1",
     "mockaroo": "^0.1.7",
     "react": "^15.3.0",

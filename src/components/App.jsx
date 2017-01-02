@@ -14,6 +14,11 @@ import Tile from 'grommet/components/Tile';
 import SearchForm from './SearchForm';
 import RestaurantCard from './RestaurantCard';
 import Restaurant from './Restaurant';
+import { getAll } from '../localStorage';
+
+function uniqueValues(list) {
+  return [...new Set(list)];
+}
 
 class App extends Component {
   constructor(props) {
@@ -21,51 +26,89 @@ class App extends Component {
 
     this.state = {
       hidden: true,
+      restaurants: [],
+      locations: [],
+      cuisines: [],
     };
 
+    this.onSearch = this.onSearch.bind(this);
     this.onClose = this.onClose.bind(this);
     this.show = this.show.bind(this);
+  }
+
+  componentDidMount() {
+    getAll().then((restaurants) => {
+      this.setState({
+        restaurants,
+        cuisines: uniqueValues(restaurants.map(r => r.cuisine)),
+        locations: uniqueValues(restaurants.map(r => r.address.city)),
+      });
+    });
+  }
+
+  onSearch(search) {
+    if (
+      !search.name &&
+      !search.cuisine &&
+      !search.location) {
+      getAll().then((restaurants) => {
+        this.setState({ restaurants });
+      });
+      return;
+    }
+
+    getAll().then((restaurants) => {
+      const found = restaurants.filter(r => (
+        (!search.cuisine || r.cuisine === search.cuisine) &&
+        (!search.name || r.name.includes(search.name)) &&
+        (!search.location || r.address.city === search.location)
+      ));
+
+      this.setState({
+        restaurants: found,
+      });
+    });
   }
 
   onClose() {
     this.setState({ hidden: true });
   }
 
-  show() {
-    this.setState({ hidden: false });
+  show(r) {
+    this.setState({
+      hidden: false,
+      selected: r,
+    });
   }
 
   render() {
-    const cards = [];
-
-    for (let i = 0; i <= 10; i++) {
-      cards.push(<Tile key={i} onClick={this.show}><RestaurantCard /></Tile>);
-    }
-
-    const restaurant = {
-      name: 'Test Restaurant',
-      comments: [
-        { author: 'test1', content: 'Test Comment!!dasd' },
-        { author: 'test2', content: 'Test Comment!!dasd' },
-        { author: 'test3', content: 'Test Comment!!dasd' },
-        { author: 'test4', content: 'Test Comment!!dasd' },
-      ]
-    };
+    const cards = this.state.restaurants.map((r, i) => (
+      <Tile key={i} onClick={() => this.show(r)}><RestaurantCard restaurant={r} /></Tile>
+    ));
 
     return (
-      <Container>
+      <Container >
         <Header pad="small" colorIndex="brand">
           <Title>Restaurant Reviews</Title>
         </Header>
         <Section pad="medium">
-          <SearchForm />
+          <SearchForm
+            onSearch={this.onSearch}
+            locations={this.state.locations}
+            cuisines={this.state.cuisines}
+            />
           <Heading tag="h3" style={{ marginTop: '20px' }}>Found: </Heading>
           <Tiles size="small" selectable>{cards}</Tiles>
         </Section>
-        <Layer hidden={this.state.hidden} onClose={this.onClose} closer>
-          <Restaurant restaurant={restaurant} />
+        <Layer
+          ref={(layer) => { this.layer = layer; } }
+          hidden={this.state.hidden}
+          onClose={this.onClose}
+          closer
+          >
+          <Restaurant restaurant={this.state.selected} />
         </Layer>
-      </Container>
+      </Container >
     );
   }
 }

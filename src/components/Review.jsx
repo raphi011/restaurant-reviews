@@ -1,21 +1,23 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 import Heading from 'grommet/components/Heading';
 import Paragraph from 'grommet/components/Paragraph';
+import Timestamp from 'grommet/components/Timestamp';
 
+import Stars from './Stars';
+import { reviewProp } from '../propTypes';
 
-const Review = ({ comment }) => (
+const Review = ({ review }) => (
   <div>
-    <Heading tag="h4">{comment.author}</Heading>
-    <Paragraph>{comment.content}</Paragraph>
+    <Heading tag="h4" strong>{review.author}</Heading>
+    <Timestamp value={review.added} />
+    <Paragraph>{review.content}</Paragraph>
+    <Stars size="medium" stars={review.stars} selectable={false} />
   </div>
 );
 
 Review.propTypes = {
-  comment: PropTypes.shape({
-    author: PropTypes.string,
-    content: PropTypes.string,
-  }).isRequired,
+  review: reviewProp.isRequired,
 };
 
 export default Review;

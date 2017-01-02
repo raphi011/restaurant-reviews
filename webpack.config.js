@@ -4,7 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const prod = process.argv.indexOf('-p') !== -1;
 
-const host = 'localhost';
+const host = '0.0.0.0';
 const port = 8080;
 
 const config = {
