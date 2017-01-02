@@ -86,6 +86,15 @@ class App extends Component {
       <Tile key={i} onClick={() => this.show(r)}><RestaurantCard restaurant={r} /></Tile>
     ));
 
+    const layer =
+      this.state.hidden ?
+        undefined :
+        (
+          <Layer onClose={this.onClose} closer>
+            <Restaurant restaurant={this.state.selected} />
+          </Layer>
+        );
+
     return (
       <Container >
         <Header pad="small" colorIndex="brand">
@@ -98,16 +107,9 @@ class App extends Component {
             cuisines={this.state.cuisines}
             />
           <Heading tag="h3" style={{ marginTop: '20px' }}>Found: </Heading>
-          <Tiles size="small" selectable>{cards}</Tiles>
+          <Tiles selectable size="medium">{cards}</Tiles>
         </Section>
-        <Layer
-          ref={(layer) => { this.layer = layer; } }
-          hidden={this.state.hidden}
-          onClose={this.onClose}
-          closer
-          >
-          <Restaurant restaurant={this.state.selected} />
-        </Layer>
+        {layer}
       </Container >
     );
   }

@@ -44,26 +44,22 @@ const Stars = ({ stars, onSelect, selectable, size, ...props }) => {
   const starIcons = [];
 
   for (let i = 0; i < MAX; i++) {
-    const starProps = {
-      key: i,
-      size,
-    };
+    const starProps = { size };
 
     if (i >= stars) starProps.style = { opacity: 0.5 };
 
     if (selectable) {
-      starProps.onClick = () => onClick(selectable, i + 1, onSelect);
-      starProps.role = 'radio';
-      /* starProps['aria-label'] = i + 1; */
+      const spanProps = {
+        onClick: () => onClick(selectable, i + 1, onSelect),
+        role: 'radio',
+        'aria-label': i + 1,
+        'aria-checked': ((i + 1) === stars).toString(),
+      };
 
-      if ((i + 1) === stars) {
-        starProps['aria-checked'] = 'true';
-      } else {
-        starProps['aria-checked'] = 'false';
-      }
+      starIcons.push(<span key={i} {...spanProps}><StarIcon {...starProps} /></span>);
+    } else {
+      starIcons.push(<StarIcon key={i} {...starProps} />);
     }
-
-    starIcons.push(<StarIcon {...starProps} />);
   }
 
   const controlProps = {};

@@ -118,11 +118,11 @@ class ReviewForm extends Component {
           <Heading>New Review</Heading>
         </Header>
         <FormFields>
-          <FormField label="Author" error={this.state.authorError}>
-            <TextInput onDOMChange={this.onAuthorChanged} value={this.state.author} />
+          <FormField label="Author" htmlFor="author" error={this.state.authorError}>
+            <TextInput id="author" onDOMChange={this.onAuthorChanged} value={this.state.author} />
           </FormField>
-          <FormField label="Review" error={this.state.contentError}>
-            <TextInput onDOMChange={this.onContentChanged} value={this.state.content} />
+          <FormField label="Review" htmlFor="review" error={this.state.contentError}>
+            <TextInput id="review" onDOMChange={this.onContentChanged} value={this.state.content} />
           </FormField>
           <FormField label="Stars" error={this.state.starsError} >
             <Stars size="large" style={{ margin: 'auto', align: 'center' }} stars={this.state.stars} onSelect={this.onStarsChanged} selectable />

@@ -46,7 +46,11 @@ class Restaurant extends Component {
     return (
       <div>
         <Box pad="medium">
-          <Image alt="Restaurant Image" src="http://loremflickr.com/320/240/house" full="horizontal" />
+          <Image
+            alt="Restaurant Image"
+            src={`/imgs/${restaurant.id}.jpg`}
+            full="horizontal"
+            />
           <Heading>
             {restaurant.name}
           </Heading>
